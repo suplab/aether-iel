@@ -1,0 +1,40 @@
+---
+# Aether Intelligence Engineering Lifecycle — EEIK Manifest
+name: aether-iel
+type: methodology-framework
+description: >
+  Intelligence Engineering Lifecycle (AIEL) — a repeatable methodology for
+  engineering, operating, governing, and evolving persistent intelligence systems.
+
+ecosystem:
+  role: methodology
+  layer: foundation
+  consumes:
+    - aether (standards and vision)
+  consumed-by:
+    - aether-core
+    - aether-grid
+    - all Aether domain products
+
+technology:
+  runtime: none
+  language: documentation
+  format: markdown, html
+
+compliance:
+  gdpr: documented-in-lifecycle/09-governance.md
+  human-in-the-loop: documented-in-lifecycle/09-governance.md
+  audit: documented-in-lifecycle/09-governance.md
+
+agents:
+  - name: aiel-advisor
+    role: Guides teams through AIEL phase selection and artifact creation
+  - name: maturity-assessor
+    role: Assesses current intelligence maturity level and recommends next steps
+  - name: governance-officer
+    role: Ensures governance controls are in place at each lifecycle phase
+
+contacts:
+  maintainer: suplab
+  repository: https://github.com/suplab/aether-iel
+  ecosystem-hub: https://github.com/suplab/aether
