@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aether IEL — Intelligence Engineering Lifecycle</title>
+  <style>
+    :root {
+      --bg: #0a0d14;
+      --surface: #111520;
+      --surface2: #161b2e;
+      --border: #1e2a45;
+      --accent: #f59e0b;
+      --accent2: #7c5af7;
+      --accent3: #34d399;
+      --accent4: #4f8ef7;
+      --text: #e2e8f0;
+      --muted: #64748b;
+      --warn: #ef4444;
+      --tag-bg: #1e2a45;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+    }
+    a { color: var(--accent4); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(10, 13, 20, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 56px;
+    }
+    .nav-brand { font-weight: 700; font-size: 1.1rem; letter-spacing: -0.02em; }
+    .nav-brand .ae { color: var(--accent); }
+    .nav-brand .iel { color: var(--muted); font-weight: 400; font-size: 0.85rem; margin-left: 0.3rem; }
+    .nav-links { display: flex; gap: 1.5rem; font-size: 0.85rem; }
+    .nav-links a { color: var(--muted); transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); text-decoration: none; }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 6rem 2rem 4rem;
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .hero-eyebrow {
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.2rem;
+    }
+    .hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3.6rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1.1;
+      margin-bottom: 1.2rem;
+      background: linear-gradient(135deg, #e2e8f0 0%, #94a3b8 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .hero h1 .accent {
+      background: linear-gradient(135deg, var(--accent) 0%, #fb923c 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .hero-sub {
+      font-size: 1.05rem; color: var(--muted);
+      max-width: 640px; margin: 0 auto 2.5rem;
+    }
+    .hero-badges {
+      display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center;
+      margin-bottom: 3rem;
+    }
+    .badge {
+      background: var(--tag-bg); border: 1px solid var(--border);
+      border-radius: 999px; padding: 0.3rem 0.9rem;
+      font-size: 0.78rem; color: var(--muted);
+    }
+    .badge.amber { border-color: rgba(245,158,11,0.4); color: var(--accent); background: rgba(245,158,11,0.08); }
+    .badge.purple { border-color: rgba(124,90,247,0.4); color: var(--accent2); background: rgba(124,90,247,0.08); }
+    .badge.green { border-color: rgba(52,211,153,0.4); color: var(--accent3); background: rgba(52,211,153,0.08); }
+    .badge.blue { border-color: rgba(79,142,247,0.4); color: var(--accent4); background: rgba(79,142,247,0.08); }
+
+    /* ── SECTION ── */
+    .section { max-width: 1100px; margin: 0 auto; padding: 4rem 2rem; }
+    .section-label {
+      font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 0.6rem;
+    }
+    .section h2 { font-size: 1.9rem; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 0.6rem; }
+    .section-intro { color: var(--muted); max-width: 680px; margin-bottom: 2.5rem; }
+    hr.divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+    /* ── LIFECYCLE PHASES ── */
+    .phase-groups {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+    .phase-group {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .phase-group-header {
+      padding: 1rem 1.5rem;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--border);
+    }
+    .group-design { background: rgba(245,158,11,0.06); border-color: rgba(245,158,11,0.2); }
+    .group-design .phase-group-header { color: var(--accent); background: rgba(245,158,11,0.08); border-color: rgba(245,158,11,0.2); }
+    .group-construct { background: rgba(79,142,247,0.06); border-color: rgba(79,142,247,0.2); }
+    .group-construct .phase-group-header { color: var(--accent4); background: rgba(79,142,247,0.08); border-color: rgba(79,142,247,0.2); }
+    .group-operate { background: rgba(52,211,153,0.06); border-color: rgba(52,211,153,0.2); }
+    .group-operate .phase-group-header { color: var(--accent3); background: rgba(52,211,153,0.08); border-color: rgba(52,211,153,0.2); }
+    .group-evolve { background: rgba(124,90,247,0.06); border-color: rgba(124,90,247,0.2); }
+    .group-evolve .phase-group-header { color: var(--accent2); background: rgba(124,90,247,0.08); border-color: rgba(124,90,247,0.2); }
+
+    .phase-row {
+      display: grid;
+      grid-template-columns: 48px 1fr auto;
+      align-items: start;
+      gap: 1rem;
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.15s;
+    }
+    .phase-row:last-child { border-bottom: none; }
+    .phase-row:hover { background: rgba(255,255,255,0.02); }
+    .phase-num {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem; font-weight: 700;
+      flex-shrink: 0;
+    }
+    .group-design .phase-num { background: rgba(245,158,11,0.12); color: var(--accent); border: 1px solid rgba(245,158,11,0.3); }
+    .group-construct .phase-num { background: rgba(79,142,247,0.12); color: var(--accent4); border: 1px solid rgba(79,142,247,0.3); }
+    .group-operate .phase-num { background: rgba(52,211,153,0.12); color: var(--accent3); border: 1px solid rgba(52,211,153,0.3); }
+    .group-evolve .phase-num { background: rgba(124,90,247,0.12); color: var(--accent2); border: 1px solid rgba(124,90,247,0.3); }
+    .phase-info { }
+    .phase-name { font-weight: 600; font-size: 0.9rem; margin-bottom: 0.2rem; }
+    .phase-question { font-size: 0.8rem; color: var(--muted); font-style: italic; }
+    .phase-artifact {
+      font-size: 0.72rem; color: var(--muted);
+      background: var(--tag-bg); border: 1px solid var(--border);
+      border-radius: 4px; padding: 0.2rem 0.5rem;
+      white-space: nowrap; align-self: center;
+    }
+
+    /* ── IMM ── */
+    .imm-levels {
+      display: flex; flex-direction: column; gap: 0;
+      border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
+    }
+    .imm-level {
+      display: grid;
+      grid-template-columns: 80px 200px 1fr auto;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.15s;
+    }
+    .imm-level:last-child { border-bottom: none; }
+    .imm-level:hover { background: var(--surface); }
+    .imm-badge {
+      text-align: center;
+      font-size: 1.4rem; font-weight: 800; letter-spacing: -0.04em;
+    }
+    .imm-l1 .imm-badge { color: #475569; }
+    .imm-l2 .imm-badge { color: #60a5fa; }
+    .imm-l3 .imm-badge { color: var(--accent2); }
+    .imm-l4 .imm-badge { color: var(--accent); }
+    .imm-l5 .imm-badge { color: var(--accent3); }
+    .imm-name { font-weight: 700; font-size: 0.95rem; }
+    .imm-l1 .imm-name { color: #475569; }
+    .imm-l2 .imm-name { color: #60a5fa; }
+    .imm-l3 .imm-name { color: var(--accent2); }
+    .imm-l4 .imm-name { color: var(--accent); }
+    .imm-l5 .imm-name { color: var(--accent3); }
+    .imm-desc { font-size: 0.85rem; color: var(--muted); }
+    .imm-key { font-size: 0.75rem; color: var(--muted); text-align: right; }
+
+    /* ── ARTIFACTS ── */
+    .artifact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+    .artifact-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.4rem;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .artifact-card:hover { border-color: rgba(245,158,11,0.3); background: var(--surface2); }
+    .artifact-phase {
+      font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 0.5rem;
+    }
+    .artifact-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.4rem; }
+    .artifact-desc { font-size: 0.82rem; color: var(--muted); }
+
+    /* ── PRINCIPLES ── */
+    .principles-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1rem;
+    }
+    .principle-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 1.4rem;
+      transition: border-color 0.2s;
+    }
+    .principle-card:hover { border-color: rgba(245,158,11,0.3); }
+    .principle-number {
+      font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 0.5rem;
+    }
+    .principle-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.4rem; }
+    .principle-desc { font-size: 0.82rem; color: var(--muted); }
+
+    /* ── ECOSYSTEM REPOS ── */
+    .repos-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1rem;
+    }
+    .repo-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 1.4rem;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .repo-card:hover { border-color: rgba(79,142,247,0.4); background: var(--surface2); }
+    .repo-card.self { border-color: rgba(245,158,11,0.4); background: rgba(245,158,11,0.04); }
+    .repo-layer { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.4rem; }
+    .repo-name { font-weight: 700; font-size: 1rem; margin-bottom: 0.3rem; }
+    .repo-desc { font-size: 0.82rem; color: var(--muted); margin-bottom: 0.8rem; }
+    .repo-link { font-size: 0.78rem; color: var(--accent4); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 2rem;
+      max-width: 1100px; margin: 0 auto;
+      display: flex; flex-wrap: wrap;
+      justify-content: space-between; align-items: flex-start;
+      gap: 2rem;
+    }
+    footer .footer-brand { font-weight: 700; font-size: 1rem; margin-bottom: 0.4rem; }
+    footer .footer-brand .ae { color: var(--accent); }
+    footer .footer-meta { font-size: 0.8rem; color: var(--muted); }
+    footer .footer-links { display: flex; flex-direction: column; gap: 0.4rem; }
+    footer .footer-links a { font-size: 0.82rem; color: var(--muted); }
+    footer .footer-links a:hover { color: var(--text); }
+    footer .footer-heading { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.6rem; }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .phase-groups { grid-template-columns: 1fr; }
+      .imm-level { grid-template-columns: 60px 1fr; }
+      .imm-key { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">
+    <span class="ae">Æ</span> Aether <span class="iel">IEL</span>
+  </div>
+  <div class="nav-links">
+    <a href="#lifecycle">Lifecycle</a>
+    <a href="#maturity">Maturity</a>
+    <a href="#artifacts">Artifacts</a>
+    <a href="#principles">Principles</a>
+    <a href="#ecosystem">Ecosystem</a>
+    <a href="https://github.com/suplab/aether-iel">GitHub</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">
+    Methodology Framework · Part of the <a href="https://github.com/suplab/aether">Æ Aether Ecosystem</a>
+  </div>
+  <h1>Intelligence<br><span class="accent">Engineering Lifecycle</span></h1>
+  <p class="hero-sub">
+    A repeatable 12-phase methodology for engineering, operating, governing, and evolving
+    persistent intelligence systems — from first idea to graceful retirement.
+  </p>
+  <div class="hero-badges">
+    <span class="badge amber">12 Phases</span>
+    <span class="badge purple">5-Level Maturity Model</span>
+    <span class="badge green">Governance-First</span>
+    <span class="badge blue">EEIK Bootstrap</span>
+    <span class="badge">Documentation Only</span>
+    <span class="badge">v1.0 Foundation</span>
+  </div>
+</div>
+
+<hr class="divider" />
+
+<!-- LIFECYCLE PHASES -->
+<section class="section" id="lifecycle">
+  <div class="section-label">Core Framework</div>
+  <h2>The 12 AIEL Phases</h2>
+  <p class="section-intro">
+    Each phase answers a specific question, produces a primary artifact, and defines a gate before the next phase begins.
+    Phases are grouped into four engineering blocks: Design, Construction, Operations, and Evolution.
+  </p>
+
+  <div class="phase-groups">
+
+    <!-- DESIGN BLOCK -->
+    <div class="phase-group group-design">
+      <div class="phase-group-header">⬡ Design Block — What &amp; How</div>
+
+      <div class="phase-row">
+        <div class="phase-num">01</div>
+        <div class="phase-info">
+          <div class="phase-name">Strategy Engineering</div>
+          <div class="phase-question">Why does this intelligence exist?</div>
+        </div>
+        <div class="phase-artifact">Intelligence Brief</div>
+      </div>
+
+      <div class="phase-row">
+        <div class="phase-num">02</div>
+        <div class="phase-info">
+          <div class="phase-name">Cognitive Architecture</div>
+          <div class="phase-question">How should it reason and remember?</div>
+        </div>
+        <div class="phase-artifact">Cognitive Design</div>
+      </div>
+
+      <div class="phase-row">
+        <div class="phase-num">03</div>
+        <div class="phase-info">
+          <div class="phase-name">Knowledge Engineering</div>
+          <div class="phase-question">What does it need to know?</div>
+        </div>
+        <div class="phase-artifact">Knowledge Graph + RAG</div>
+      </div>
+
+      <div class="phase-row">
+        <div class="phase-num">04</div>
+        <div class="phase-info">
+          <div class="phase-name">Memory Engineering</div>
+          <div class="phase-question">What persists, what decays?</div>
+        </div>
+        <div class="phase-artifact">Memory Schema</div>
+      </div>
+
+      <div class="phase-row">
+        <div class="phase-num">05</div>
+        <div class="phase-info">
+          <div class="phase-name">Agent Engineering</div>
+          <div class="phase-question">What agents exist and what authority?</div>
+        </div>
+        <div class="phase-artifact">Agent Contracts</div>
+      </div>
+
+    </div>
+
+    <!-- CONSTRUCTION BLOCK -->
+    <div class="phase-group group-construct">
+      <div class="phase-group-header">⬡ Construction Block — Build</div>
+
+      <div class="phase-row">
+        <div class="phase-num">06</div>
+        <div class="phase-info">
+          <div class="phase-name">Implementation Engineering</div>
+          <div class="phase-question">Build it to spec</div>
+        </div>
+        <div class="phase-artifact">Code, APIs, Prompts</div>
+      </div>
+
+      <div class="phase-row">
+        <div class="phase-num">07</div>
+        <div class="phase-info">
+          <div class="phase-name">Evaluation Engineering</div>
+          <div class="phase-question">How well does it actually work?</div>
+        </div>
+        <div class="phase-artifact">Evaluation Report</div>
+      </div>
+
+    </div>
+
+    <!-- OPERATIONS BLOCK -->
+    <div class="phase-group group-operate">
+      <div class="phase-group-header">⬡ Operations Block — Run</div>
+
+      <div class="phase-row">
+        <div class="phase-num">08</div>
+        <div class="phase-info">
+          <div class="phase-name">Operational Engineering</div>
+          <div class="phase-question">Is it observable and reliable?</div>
+        </div>
+        <div class="phase-artifact">Observability Dashboard</div>
+      </div>
+
+      <div class="phase-row">
+        <div class="phase-num">09</div>
+        <div class="phase-info">
+          <div class="phase-name">Governance Engineering</div>
+          <div class="phase-question">Who controls it and how?</div>
+        </div>
+        <div class="phase-artifact">Policy + Audit Trail</div>
+      </div>
+
+      <div class="phase-row">
+        <div class="phase-num">10</div>
+        <div class="phase-info">
+          <div class="phase-name">Learning Engineering</div>
+          <div class="phase-question">Is it improving over time?</div>
+        </div>
+        <div class="phase-artifact">Learning Log</div>
+      </div>
+
+    </div>
+
+    <!-- EVOLUTION BLOCK -->
+    <div class="phase-group group-evolve">
+      <div class="phase-group-header">⬡ Evolution Block — Grow &amp; End</div>
+
+      <div class="phase-row">
+        <div class="phase-num">11</div>
+        <div class="phase-info">
+          <div class="phase-name">Evolution Engineering</div>
+          <div class="phase-question">How does it grow in capability?</div>
+        </div>
+        <div class="phase-artifact">Evolution Strategy</div>
+      </div>
+
+      <div class="phase-row">
+        <div class="phase-num">12</div>
+        <div class="phase-info">
+          <div class="phase-name">Retirement Engineering</div>
+          <div class="phase-question">How does it end gracefully?</div>
+        </div>
+        <div class="phase-artifact">Retirement Plan</div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- MATURITY MODEL -->
+<section class="section" id="maturity">
+  <div class="section-label">Intelligence Maturity Model</div>
+  <h2>5 Levels of Intelligence Maturity</h2>
+  <p class="section-intro">
+    The IMM gives teams a shared language for where they are and a clear path to where they need to be.
+    Each level has explicit entry criteria and advancement gates.
+  </p>
+
+  <div class="imm-levels">
+    <div class="imm-level imm-l1">
+      <div class="imm-badge">L1</div>
+      <div class="imm-name">Prompt Experiments</div>
+      <div class="imm-desc">One-off LLM calls, no memory, no agents. Output is ephemeral and non-reproducible.</div>
+      <div class="imm-key">No AIEL required</div>
+    </div>
+    <div class="imm-level imm-l2">
+      <div class="imm-badge">L2</div>
+      <div class="imm-name">AI Applications</div>
+      <div class="imm-desc">RAG or fine-tuned models with persistent knowledge. Phases 1–3 apply.</div>
+      <div class="imm-key">Phases 1 – 3</div>
+    </div>
+    <div class="imm-level imm-l3">
+      <div class="imm-badge">L3</div>
+      <div class="imm-name">Agent Systems</div>
+      <div class="imm-desc">Multi-agent orchestration, tool use, feedback loops. Confidence gate is mandatory.</div>
+      <div class="imm-key">Phases 1 – 7</div>
+    </div>
+    <div class="imm-level imm-l4">
+      <div class="imm-badge">L4</div>
+      <div class="imm-name">Cognitive Platforms</div>
+      <div class="imm-desc">Persistent memory, identity, emotional context, full GDPR compliance.</div>
+      <div class="imm-key">Phases 1 – 10</div>
+    </div>
+    <div class="imm-level imm-l5">
+      <div class="imm-badge">L5</div>
+      <div class="imm-name">Distributed Intelligence</div>
+      <div class="imm-desc">Federated memory, collective learning, autonomous evolution across agent meshes.</div>
+      <div class="imm-key">All 12 Phases</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ARTIFACTS -->
+<section class="section" id="artifacts">
+  <div class="section-label">Lifecycle Artifacts</div>
+  <h2>Templates &amp; Deliverables</h2>
+  <p class="section-intro">
+    Every phase produces a primary artifact. These templates enforce consistent structure across all intelligence systems
+    built on the Aether ecosystem.
+  </p>
+
+  <div class="artifact-grid">
+    <div class="artifact-card">
+      <div class="artifact-phase">Phase 1 · Strategy</div>
+      <div class="artifact-title">Intelligence Brief</div>
+      <div class="artifact-desc">Defines why the system exists, what decisions it makes, authority boundaries, and governance requirements. Required before any code is written.</div>
+    </div>
+
+    <div class="artifact-card">
+      <div class="artifact-phase">Phase 2 · Cognitive Architecture</div>
+      <div class="artifact-title">Cognitive Design</div>
+      <div class="artifact-desc">Documents reasoning strategies, memory model, knowledge sources, agent topology, and LLM selection rationale.</div>
+    </div>
+
+    <div class="artifact-card">
+      <div class="artifact-phase">Phase 5 · Agent Engineering</div>
+      <div class="artifact-title">Agent Contract</div>
+      <div class="artifact-desc">Specifies agent identity, capabilities, tool access, confidence gate, decision hierarchy, failure behaviour, and governance sign-off.</div>
+    </div>
+
+    <div class="artifact-card">
+      <div class="artifact-phase">Phase 7 · Evaluation</div>
+      <div class="artifact-title">Evaluation Report</div>
+      <div class="artifact-desc">Documents accuracy, latency, confidence distribution, failure modes, and production readiness decision with sign-off.</div>
+    </div>
+
+    <div class="artifact-card">
+      <div class="artifact-phase">Maturity Assessment</div>
+      <div class="artifact-title">IMM Assessment</div>
+      <div class="artifact-desc">Current level determination across 5 dimensions: memory, agents, governance, learning, and evolution. Produces advancement roadmap.</div>
+    </div>
+
+    <div class="artifact-card">
+      <div class="artifact-phase">Architecture</div>
+      <div class="artifact-title">ADR — Architecture Decision Record</div>
+      <div class="artifact-desc">Captures every significant methodology or design decision with context, options considered, decision made, and consequences.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- PRINCIPLES -->
+<section class="section" id="principles">
+  <div class="section-label">Golden Rules</div>
+  <h2>8 Non-Negotiable Principles</h2>
+  <p class="section-intro">
+    These rules are hard constraints, not guidelines. They apply to every intelligence system built in the Aether ecosystem.
+  </p>
+
+  <div class="principles-grid">
+    <div class="principle-card">
+      <div class="principle-number">Rule 01</div>
+      <div class="principle-title">Documentation First</div>
+      <div class="principle-desc">No implementation begins without a completed Intelligence Brief (Phase 1 artifact). Code without a brief is refused at review.</div>
+    </div>
+    <div class="principle-card">
+      <div class="principle-number">Rule 02</div>
+      <div class="principle-title">Decisions in ADRs</div>
+      <div class="principle-desc">Every significant methodology or architecture decision is captured in an Architecture Decision Record with context and consequences.</div>
+    </div>
+    <div class="principle-card">
+      <div class="principle-number">Rule 03</div>
+      <div class="principle-title">Brief Before Code</div>
+      <div class="principle-desc">Phase 1 artifact must exist and be reviewed before Phase 6 begins. No exceptions.</div>
+    </div>
+    <div class="principle-card">
+      <div class="principle-number">Rule 04</div>
+      <div class="principle-title">Confidence Gate at 0.8</div>
+      <div class="principle-desc">Agent decisions with confidence &lt; 0.8 always route to human review. autoEnforced=false. This gate cannot be disabled without governance approval.</div>
+    </div>
+    <div class="principle-card">
+      <div class="principle-number">Rule 05</div>
+      <div class="principle-title">Memory is First-Class</div>
+      <div class="principle-desc">Memory schema and retention policy are Phase 4 deliverables — designed explicitly, not discovered during implementation.</div>
+    </div>
+    <div class="principle-card">
+      <div class="principle-number">Rule 06</div>
+      <div class="principle-title">Explicit Agent Authority</div>
+      <div class="principle-desc">Every agent has a signed Agent Contract that defines the exact boundary of its authority. Agents cannot self-escalate.</div>
+    </div>
+    <div class="principle-card">
+      <div class="principle-number">Rule 07</div>
+      <div class="principle-title">Evaluation is Continuous</div>
+      <div class="principle-desc">Phase 7 Evaluation is not a final gate — it repeats on every evolution cycle. Regression detection is automated.</div>
+    </div>
+    <div class="principle-card">
+      <div class="principle-number">Rule 08</div>
+      <div class="principle-title">Governance at Phase 1</div>
+      <div class="principle-desc">Governance requirements are captured in the Intelligence Brief. Governance added later is governance that failed.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ECOSYSTEM -->
+<section class="section" id="ecosystem">
+  <div class="section-label">Aether Ecosystem</div>
+  <h2>Where AIEL Fits</h2>
+  <p class="section-intro">
+    AIEL is the methodological backbone — the repeatable process that every other Aether component is built with and governed by.
+  </p>
+
+  <div class="repos-grid">
+    <div class="repo-card">
+      <div class="repo-layer">Philosophy · Hub</div>
+      <div class="repo-name">Æ Aether</div>
+      <div class="repo-desc">Vision, architecture philosophy, ecosystem standards, and the index connecting all repositories.</div>
+      <a class="repo-link" href="https://github.com/suplab/aether">github.com/suplab/aether →</a>
+    </div>
+
+    <div class="repo-card self">
+      <div class="repo-layer">Methodology · You are here</div>
+      <div class="repo-name">Aether IEL</div>
+      <div class="repo-desc">Intelligence Engineering Lifecycle — the 12-phase methodology for engineering and governing intelligence systems.</div>
+      <a class="repo-link" href="https://github.com/suplab/aether-iel">github.com/suplab/aether-iel →</a>
+    </div>
+
+    <div class="repo-card">
+      <div class="repo-layer">Cognitive Engine · Brain</div>
+      <div class="repo-name">Aether Core</div>
+      <div class="repo-desc">Personal cognitive engine. Manages personal memory, cognitive sessions, and GDPR compliance. L4 cognitive platform.</div>
+      <a class="repo-link" href="https://github.com/suplab/aether-core">github.com/suplab/aether-core →</a>
+    </div>
+
+    <div class="repo-card">
+      <div class="repo-layer">Agent Mesh · Nervous System</div>
+      <div class="repo-name">Aether Grid</div>
+      <div class="repo-desc">Distributed agent governance mesh. Multi-agent orchestration, routing, and decision enforcement at enterprise scale.</div>
+      <a class="repo-link" href="https://github.com/suplab/aether-grid">github.com/suplab/aether-grid →</a>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-brand"><span class="ae">Æ</span> Aether IEL</div>
+    <div class="footer-meta">Intelligence Engineering Lifecycle<br>Methodology Framework · v1.0 Foundation</div>
+  </div>
+  <div>
+    <div class="footer-heading">Ecosystem</div>
+    <div class="footer-links">
+      <a href="https://github.com/suplab/aether">Æ Aether — Hub &amp; Philosophy</a>
+      <a href="https://github.com/suplab/aether-iel">Aether IEL — Methodology</a>
+      <a href="https://github.com/suplab/aether-core">Aether Core — Cognitive Engine</a>
+      <a href="https://github.com/suplab/aether-grid">Aether Grid — Agent Mesh</a>
+    </div>
+  </div>
+  <div>
+    <div class="footer-heading">Repository</div>
+    <div class="footer-links">
+      <a href="https://github.com/suplab/aether-iel">github.com/suplab/aether-iel</a>
+      <a href="https://github.com/suplab/aether-iel/tree/main/lifecycle">Lifecycle Phases</a>
+      <a href="https://github.com/suplab/aether-iel/tree/main/templates">Templates</a>
+      <a href="https://github.com/suplab/aether-iel/tree/main/maturity">Maturity Model</a>
+    </div>
+  </div>
+  <div>
+    <div class="footer-meta" style="font-size:0.75rem">
+      Bootstrapped with EEIK<br>
+      Governed by <a href="https://github.com/suplab/aether">Aether Standards</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
