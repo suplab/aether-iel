@@ -39,7 +39,7 @@ aether-grid    → Applies AIEL in: agent engineering, governance engineering
 
 ## Key Links
 
-- Ecosystem hub: suplab/aether
-- Core (applies AIEL): suplab/aether-core
-- Grid (applies AIEL): suplab/aether-grid
-- Preprint: https://doi.org/10.5281/zenodo.20394197
+- Ecosystem hub: https://github.com/suplab/aether
+- Core (applies AIEL): https://github.com/suplab/aether-core
+- Grid (applies AIEL): https://github.com/suplab/aether-grid
+- Preprint: https://doi.org/10.5281/zenodo.17477224
